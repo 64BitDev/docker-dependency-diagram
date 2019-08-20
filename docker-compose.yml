@@ -1,20 +1,58 @@
 version: '3'
 services:
-  api:
+  a:
     image: sample-express-app
     build: .
     networks:
       - backend
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./:/usr/src/app
-
-  web-cli:
+    environment:
+      - host=a
+  b:
     image: sample-express-app
+    build: .
     networks:
       - backend
-    command: sh
+    environment:
+      - host=b
+  c:
+    image: sample-express-app
+    build: .
+    networks:
+      - backend
+    environment:
+      - host=c
+  d:
+    image: sample-express-app
+    build: .
+    networks:
+      - backend
+    environment:
+      - host=d
+  e:
+    image: sample-express-app
+    build: .
+    networks:
+      - backend
+    environment:
+      - host=e
+  f:
+    image: sample-express-app
+    build: .
+    networks:
+      - backend
+    environment:
+      - host=f
+  neo4j:
+    image: neo4j:3.5.3
+    networks:
+      - backend
+    ports:
+      - 7687:7687
+      - 7474:7474
+    environment:
+      - NEO4J_AUTH=neo4j/yeti
+      - NEO4J_dbms_connector_http_listen__address=0.0.0.0:7474
+      - NEO4J_dbms_connector_bolt_listen__address=0.0.0.0:7687
 
 networks:
   backend:

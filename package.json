@@ -24,9 +24,9 @@
   },
   "homepage": "https://github.com/rama41222/nodes-docker-medium#readme",
   "dependencies": {
-    "@rama41222/node-logger": "^1.0.1",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "superagent": "5.1.0",
     "express": "^4.16.4"
   },
   "devDependencies": {
