@@ -27,7 +27,11 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "superagent": "5.1.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "avsc": "5.3.1",
+    "kafka-node": "2.6.1",
+    "moment": "2.22.2",
+    "uuid": "3.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

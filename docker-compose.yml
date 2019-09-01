@@ -5,43 +5,86 @@ services:
     build: .
     networks:
       - backend
+    depends_on:
+      - zookeeper
+      - kafka
+      - neo4j
     environment:
       - host=a
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+      - .:/usr/src/app
   b:
     image: sample-express-app
     build: .
     networks:
       - backend
+    depends_on:
+      - zookeeper
+      - kafka
+      - neo4j
     environment:
       - host=b
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+      - .:/usr/src/app
   c:
     image: sample-express-app
     build: .
     networks:
       - backend
+    depends_on:
+      - zookeeper
+      - kafka
+      - neo4j
     environment:
       - host=c
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+      - .:/usr/src/app
   d:
     image: sample-express-app
     build: .
     networks:
       - backend
+    depends_on:
+      - zookeeper
+      - kafka
+      - neo4j
     environment:
       - host=d
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+      - .:/usr/src/app
   e:
     image: sample-express-app
     build: .
     networks:
       - backend
+    depends_on:
+      - zookeeper
+      - kafka
+      - neo4j
     environment:
       - host=e
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+      - .:/usr/src/app
   f:
     image: sample-express-app
     build: .
     networks:
       - backend
+    depends_on:
+      - zookeeper
+      - kafka
+      - neo4j
     environment:
       - host=f
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    volumes:
+      - .:/usr/src/app
+
   neo4j:
     image: neo4j:3.5.3
     networks:
@@ -49,10 +92,36 @@ services:
     ports:
       - 7687:7687
       - 7474:7474
+      - 7473:7473
     environment:
       - NEO4J_AUTH=neo4j/yeti
+      - NEO4J_dbms_connector_https_listen__address=0.0.0.0:7473
       - NEO4J_dbms_connector_http_listen__address=0.0.0.0:7474
       - NEO4J_dbms_connector_bolt_listen__address=0.0.0.0:7687
+
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    container_name: zookeeper-nodejs
+    ports:
+      - 2181:2181
+    networks:
+      - backend
+
+  kafka:
+    image: wurstmeister/kafka:2.11-1.1.0
+    container_name: kafka-nodejs
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_CREATE_TOPICS: TopicX:1:1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - 9092:9092
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - backend
 
 networks:
   backend:
